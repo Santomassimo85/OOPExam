@@ -1,15 +1,27 @@
 body {
     font-family: Arial, sans-serif;
     margin: 2em;
-    background-color: rgb(245, 228, 228);
+    background-color: rgb(201, 195, 185);
     height: 100vh;
-    overflow: hidden;
     /* align-items: center;
     justify-items: center; */
 }
 
-h1,h2,h3 {
+h1 {
     color: #0d2368;
+    font-family: "Amarante", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 3rem;
+    letter-spacing: 0.2rem;
+}
+
+h2,
+h3 {
+    color: #0d2468a9;
+    font-family: "Marvel", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .bookSearch {
@@ -18,7 +30,6 @@ h1,h2,h3 {
     align-items: center;
     justify-content: center;
 }
-
 #results {
     margin-top: 1em;
 }
@@ -29,6 +40,7 @@ h1,h2,h3 {
     margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
+    height: 25px;
 }
 
 .book {
@@ -37,6 +49,18 @@ h1,h2,h3 {
     margin-bottom: 1em;
     display: flex;
     align-items: flex-start;
+    width: 60%;         
+    height: auto;        
+    
+}
+.details {
+    margin-top: 0.5em;
+    background: #c7c1c149;
+    padding: 0.5em;
+    border-radius: 5px;
+    height: auto;
+    overflow: hidden ;
+    width: 100%; 
 }
 
 .book-thumbnail {
@@ -45,6 +69,37 @@ h1,h2,h3 {
     object-fit: cover;
     margin-right: 1em;
     cursor: pointer;
+}
+
+.search {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Cambiato da stretch a center */
+    gap: 0.5em; /* Opzionale: aggiunge spazio tra input e bottone */
+}
+/* Animazione del salto */
+@keyframes eyeJump {
+    0%   { transform: translateY(0); }
+    30%  { transform: translateY(-20px); }
+    50%  { transform: translateY(0); }
+    70%  { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+/* Applica l’animazione solo quando si fa hover sul bottone */
+#searchBtn:hover .eye-emoji {
+    animation: eyeJump 1s ease-in-out;
+    display: inline-block; /* necessario per far funzionare transform */
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #ff006a91, transparent);
+    margin: 2em 0;
+    border-radius: 2px;
+    width: 60%;
 }
 
 button {
@@ -56,24 +111,28 @@ button {
     color: rgb(255, 255, 255);
     cursor: pointer;
     transition: all 0.6s ease-in-out;
+    height: 100%;
 }
 
 button:hover {
     background-color: #0d2368;
 }
+.disabled {
+    background-color: #530c2d;
+    cursor: not-allowed;
+}
+button:disabled:hover {
+    background-color: #530c2d;
+}
+button:disabled {
+    cursor: not-allowed;
+}
 
 #favorites {
-    border-top: 2px solid #888;
     margin-top: 2em;
     padding-top: 1em;
 }
 
-.details {
-    margin-top: 0.5em;
-    background: #c7c1c149;
-    padding: 0.5em;
-    border-radius: 5px;
-}
 
 /* Overlay styles */
 #imgOverlay {

@@ -9,7 +9,9 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amarante&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amarante&family=Marvel:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
     <!-- My Styles -->
     <link rel="stylesheet" href="style.css">
 </head>
@@ -17,16 +19,26 @@
 <body>
     <div class="bookSearch">
 
-        <h1>Welcome to BookAdvisor</h1>
-        <input type="text" id="searchInput" placeholder="Insert author, title or publish date" />
-        <button onclick="searchBooks()">Search</button>
+        <h1>Welcome here stranger</h1>
+        <h2>What book are you looking for?</h2>
 
-        <button onclick="showOnlyFavorites()" id="showFavBtn">Clear search</button>
-        <button onclick="clearFavorites()" id="clearFavBtn">Remove favorite books</button>
-
+        <hr>
+        <div class="search">
+            <input type="text" id="searchInput" placeholder="Insert author, title or publication date" />
+            <button onclick="searchBooks()" id="searchBtn">
+                <span class="eye-emoji">👀</span> Search
+            </button>
+        </div>
+        <div class="buttonsUnderSearch">
+            <button onclick="showOnlyFavorites()" id="showFavBtn">Clear search</button>
+            <button onclick="clearFavorites()" id="clearFavBtn">Remove favorite books</button>
+        </div>
         <h2>Search results</h2>
 
         <div id="results"></div>
+
+<hr>
+
         <div id="favorites">
             <h2>Your favorites</h2>
             <ul id="favoritesList"></ul>
@@ -84,14 +96,36 @@
                 `;
                 results.appendChild(div);
             });
+
+
+
+
+
+
         }
 
         function addToFavorites(bookId, title, authors, thumbnail) {
             if (!favorites.some(fav => fav.id === bookId)) {
-                favorites.push({ id: bookId, title: title, authors: authors, thumbnail: thumbnail });
-                updateFavorites();
+            favorites.push({ id: bookId, title: title, authors: authors, thumbnail: thumbnail });
+            updateFavorites();
             }
+            // Disattiva il bottone "Add to favorites" relativo a questo libro
+            const results = document.getElementById('results');
+            const buttons = results.querySelectorAll('button');
+            buttons.forEach(btn => {
+            if (
+                btn.textContent.trim() === 'Add to favorites' &&
+                btn.getAttribute('onclick') &&
+                btn.getAttribute('onclick').includes(JSON.stringify(bookId))
+            ) {
+                btn.disabled = true;
+                btn.classList.add('disabled');
+                
+                btn.textContent = 'Added!';
+            }
+            });
         }
+        
 
         function updateFavorites() {
             const list = document.getElementById('favoritesList');
