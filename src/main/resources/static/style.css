@@ -55,7 +55,7 @@ h3 {
     margin-bottom: 1em;
     display: flex;
     align-items: flex-start;
-    width: 60%;         
+    width: 100%;         
     height: auto;        
     
 }
@@ -198,4 +198,30 @@ button:disabled {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* Configuration for small screen */
+@media (max-width: 768px) {
+    
+    body {
+        margin: 1em;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 2rem;
+    }
+    
+
+    #searchInput {
+        width: 80%;
+    }
+
+    .book {
+        width: 90%;
+    }
+
+    .fav-card {
+        width: 100px;
+    }
 }

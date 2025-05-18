@@ -20,7 +20,7 @@
     <div class="bookSearch">
 
         <h1>Welcome here stranger</h1>
-        <h2>What book are you looking for?</h2>
+        <h2>Which book are you looking for?</h2>
 
         <hr>
         <div class="search">
@@ -37,7 +37,7 @@
 
         <div id="results"></div>
 
-<hr>
+        <hr>
 
         <div id="favorites">
             <h2>Your favorites</h2>
@@ -104,26 +104,27 @@
 
         function addToFavorites(bookId, title, authors, thumbnail) {
             if (!favorites.some(fav => fav.id === bookId)) {
-            favorites.push({ id: bookId, title: title, authors: authors, thumbnail: thumbnail });
-            updateFavorites();
+                favorites.push({ id: bookId, title: title, authors: authors, thumbnail: thumbnail });
+                updateFavorites();
             }
             // Disattiva il bottone "Add to favorites" relativo a questo libro
             const results = document.getElementById('results');
             const buttons = results.querySelectorAll('button');
             buttons.forEach(btn => {
-            if (
-                btn.textContent.trim() === 'Add to favorites' &&
-                btn.getAttribute('onclick') &&
-                btn.getAttribute('onclick').includes(JSON.stringify(bookId))
-            ) {
-                btn.disabled = true;
-                btn.classList.add('disabled');
-                
-                btn.textContent = 'Added!';
-            }
+                if (
+                    btn.textContent.trim() === 'Add to favorites' &&
+                    btn.getAttribute('onclick') &&
+                    btn.getAttribute('onclick').includes(JSON.stringify(bookId))
+                ) {
+                    btn.disabled = true;
+                    btn.classList.add('disabled');
+
+                    btn.textContent = 'Added!';
+                }
             });
         }
-        
+
+
 
         function updateFavorites() {
             const list = document.getElementById('favoritesList');
@@ -141,10 +142,24 @@
                     li.innerHTML = `<div class="fav-thumb">N/A</div>`;
                 }
                 li.innerHTML += `<strong>${fav.title || 'No title'}</strong><br>
-                    <em>${fav.authors ? fav.authors.join(', ') : 'Unknown author'}</em>`;
+            <em>${fav.authors ? fav.authors.join(', ') : 'Unknown author'}</em>
+            <span class="remove-fav" title="Remove from favorites" onclick="removeFavorite('${fav.id}')">
+            <button>remove</button>
+            </span>`;
                 list.appendChild(li);
             });
         }
+
+        // function that removes a book from the favorites list
+        function removeFavorite(bookId) {
+            favorites = favorites.filter(fav => fav.id !== bookId);
+            updateFavorites();
+        }
+
+
+
+
+
 
         async function showDetails(buttonElem, bookId) {
             const bookDiv = buttonElem.closest('.book');
