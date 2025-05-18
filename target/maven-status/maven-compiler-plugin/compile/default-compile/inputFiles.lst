@@ -1,0 +1,6 @@
+/home/luxxion/OOPEXAM/src/main/java/com/bookadvisor/BookAdvisorApplication.java
+/home/luxxion/OOPEXAM/src/main/java/com/bookadvisor/model/Book.java
+/home/luxxion/OOPEXAM/src/main/java/com/bookadvisor/service/BookService.java
+/home/luxxion/OOPEXAM/src/main/java/com/bookadvisor/config/SwaggerConfig.java
+/home/luxxion/OOPEXAM/src/main/java/com/bookadvisor/controller/BookController.java
+/home/luxxion/OOPEXAM/src/main/java/com/bookadvisor/dto/BookDto.java

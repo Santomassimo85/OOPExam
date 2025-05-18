@@ -1,0 +1,131 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 2em;
+    background-color: rgb(245, 228, 228);
+    height: 100vh;
+    overflow: hidden;
+    /* align-items: center;
+    justify-items: center; */
+}
+
+h1,h2,h3 {
+    color: #0d2368;
+}
+
+.bookSearch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#results {
+    margin-top: 1em;
+}
+
+#searchInput {
+    padding: 0.5em;
+    width: 25%;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.book {
+    border: none;
+    padding: 1em;
+    margin-bottom: 1em;
+    display: flex;
+    align-items: flex-start;
+}
+
+.book-thumbnail {
+    width: 60px;
+    height: 90px;
+    object-fit: cover;
+    margin-right: 1em;
+    cursor: pointer;
+}
+
+button {
+    margin: 0.2em;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 4px;
+    background-color: #ff006a;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    transition: all 0.6s ease-in-out;
+}
+
+button:hover {
+    background-color: #0d2368;
+}
+
+#favorites {
+    border-top: 2px solid #888;
+    margin-top: 2em;
+    padding-top: 1em;
+}
+
+.details {
+    margin-top: 0.5em;
+    background: #c7c1c149;
+    padding: 0.5em;
+    border-radius: 5px;
+}
+
+/* Overlay styles */
+#imgOverlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#imgOverlay img {
+    max-width: 90vw;
+    max-height: 90vh;
+    box-shadow: 0 0 20px #000;
+}
+
+#imgOverlay:target {
+    display: flex;
+}
+
+/* Favorite cards */
+#favoritesList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    list-style: none;
+    padding: 0;
+}
+
+.fav-card {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 0.5em;
+    width: 160px;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fav-thumb {
+    width: 80px;
+    height: 120px;
+    object-fit: cover;
+    margin-bottom: 0.5em;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

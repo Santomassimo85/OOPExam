@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Book Advisor</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amarante&display=swap" rel="stylesheet">
+    <!-- My Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="bookSearch">
+
+        <h1>Welcome to BookAdvisor</h1>
+        <input type="text" id="searchInput" placeholder="Insert author, title or publish date" />
+        <button onclick="searchBooks()">Search</button>
+
+        <button onclick="showOnlyFavorites()" id="showFavBtn">Clear search</button>
+        <button onclick="clearFavorites()" id="clearFavBtn">Remove favorite books</button>
+
+        <h2>Search results</h2>
+
+        <div id="results"></div>
+        <div id="favorites">
+            <h2>Your favorites</h2>
+            <ul id="favoritesList"></ul>
+        </div>
+    </div>
+
+    <!-- Overlay for enlarged image -->
+    <div id="imgOverlay" onclick="closeOverlay()">
+        <img id="overlayImg" src="" alt="Enlarged cover">
+    </div>
+
+    <script>
+        let favorites = [];
+
+        async function searchBooks() {
+            const query = document.getElementById('searchInput').value;
+            if (!query) return;
+            document.getElementById('results').innerHTML = 'Loading...';
+            const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`);
+            const data = await res.json();
+            showResults(data.items || []);
+        }
+        function clearFavorites() {
+            favorites = [];
+            updateFavorites();
+        }
+        function showOnlyFavorites() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('results').innerHTML = '';
+        }
+        function showResults(books) {
+            const results = document.getElementById('results');
+            results.innerHTML = '';
+            if (books.length === 0) {
+                results.innerHTML = 'No books found.';
+                return;
+            }
+            books.forEach(book => {
+                const info = book.volumeInfo;
+                const thumbnailUrl = info.imageLinks && info.imageLinks.thumbnail ? info.imageLinks.thumbnail : null;
+                const thumbnail = thumbnailUrl
+                    ? `<img class="book-thumbnail" src="${thumbnailUrl}" alt="Book cover" onclick="showOverlay('${thumbnailUrl.replace('http:', 'https:')}')">`
+                    : `<div class="book-thumbnail" style="background:#eee;display:flex;align-items:center;justify-content:center;">N/A</div>`;
+                const div = document.createElement('div');
+                div.className = 'book';
+                div.innerHTML = `
+                    ${thumbnail}
+                    <div>
+                        <strong>${info.title || 'No title'}</strong><br>
+                        <em>${info.authors ? info.authors.join(', ') : 'Unknown author'}</em><br>
+                        <button onclick='addToFavorites(${JSON.stringify(book.id)}, ${JSON.stringify(info.title)}, ${JSON.stringify(info.authors)}, ${JSON.stringify(thumbnailUrl)})'>Add to favorites</button>
+                        <button onclick='showDetails(this, ${JSON.stringify(book.id)})'>Details</button>
+                        <div class="details"></div>
+                    </div>
+                `;
+                results.appendChild(div);
+            });
+        }
+
+        function addToFavorites(bookId, title, authors, thumbnail) {
+            if (!favorites.some(fav => fav.id === bookId)) {
+                favorites.push({ id: bookId, title: title, authors: authors, thumbnail: thumbnail });
+                updateFavorites();
+            }
+        }
+
+        function updateFavorites() {
+            const list = document.getElementById('favoritesList');
+            list.innerHTML = '';
+            if (favorites.length === 0) {
+                list.innerHTML = '<li>No favorites.</li>';
+                return;
+            }
+            favorites.forEach(fav => {
+                const li = document.createElement('li');
+                li.className = 'fav-card';
+                if (fav.thumbnail) {
+                    li.innerHTML = `<img class="fav-thumb" src="${fav.thumbnail.replace('http:', 'https:')}" alt="Cover" onclick="showOverlay('${fav.thumbnail.replace('http:', 'https:')}')">`;
+                } else {
+                    li.innerHTML = `<div class="fav-thumb">N/A</div>`;
+                }
+                li.innerHTML += `<strong>${fav.title || 'No title'}</strong><br>
+                    <em>${fav.authors ? fav.authors.join(', ') : 'Unknown author'}</em>`;
+                list.appendChild(li);
+            });
+        }
+
+        async function showDetails(buttonElem, bookId) {
+            const bookDiv = buttonElem.closest('.book');
+            const detailsDiv = bookDiv.querySelector('.details');
+            if (detailsDiv.innerHTML) {
+                detailsDiv.innerHTML = '';
+                return;
+            }
+            detailsDiv.innerHTML = 'Loading details...';
+            const res = await fetch(`https://www.googleapis.com/books/v1/volumes/${bookId}`);
+            const book = await res.json();
+            detailsDiv.innerHTML = `
+                <strong>Title:</strong> ${book.volumeInfo.title}<br>
+                <strong>Authors:</strong> ${book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'N/A'}<br>
+                <strong>Description:</strong> ${book.volumeInfo.description ? book.volumeInfo.description : 'N/A'}
+            `;
+        }
+
+        // Overlay functions
+        function showOverlay(imgUrl) {
+            const overlay = document.getElementById('imgOverlay');
+            const overlayImg = document.getElementById('overlayImg');
+            overlayImg.src = imgUrl;
+            overlay.style.display = 'flex';
+        }
+        function closeOverlay() {
+            document.getElementById('imgOverlay').style.display = 'none';
+            document.getElementById('overlayImg').src = '';
+        }
+        // ESC to close overlay
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeOverlay();
+        });
+    </script>
+</body>
+
+</html>

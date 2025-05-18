@@ -1,0 +1,6 @@
+com/bookadvisor/service/BookService.class
+com/bookadvisor/model/Book.class
+com/bookadvisor/BookAdvisorApplication.class
+com/bookadvisor/controller/BookController.class
+com/bookadvisor/config/SwaggerConfig.class
+com/bookadvisor/dto/BookDto.class
