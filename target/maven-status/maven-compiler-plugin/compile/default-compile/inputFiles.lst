@@ -4,3 +4,4 @@
 /home/luxxion/OOPEXAM/src/main/java/com/bookadvisor/config/SwaggerConfig.java
 /home/luxxion/OOPEXAM/src/main/java/com/bookadvisor/controller/BookController.java
 /home/luxxion/OOPEXAM/src/main/java/com/bookadvisor/dto/BookDto.java
+/home/luxxion/OOPEXAM/src/main/java/com/bookadvisor/factory/BookDtoFactory.java
